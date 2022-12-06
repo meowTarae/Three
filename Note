@@ -1,0 +1,9 @@
+Renderer : Camera, Scene 객체 정보를 받아와서 
+           화면안에 이미지를 그려줌
+
+Scene : 배경색, 안개 등 여러 3D object와 빛들이 모인 최상위 node
+
+Camera : Scene에 담긴 공간 정보를, 카메라로 특정 위치만 찍어서
+         그 위치를 render에게 넘겨줌
+
+         
