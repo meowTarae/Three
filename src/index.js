@@ -14,12 +14,9 @@ if (WEBGL.isWebGLAvailable()) {
     0.1,
     1000
   );
-
-  // 캔버스
-  const canvas = document.querySelector("#index");
-
+ 
   // 렌더러
-  const renderer = new THREE.WebGLRenderer({ canvas });
+  const renderer = new THREE.WebGLRenderer();
   renderer.setSize(window.innerWidth, window.innerHeight);
 
   document.body.appendChild(renderer.domElement);
