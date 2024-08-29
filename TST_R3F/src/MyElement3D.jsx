@@ -1,12 +1,15 @@
 import { Box, OrbitControls } from "@react-three/drei";
+import { useEffect, useRef } from "react";
 import * as THREE from "three";
 
-const MyBox = (props) => {
-  const geom = new THREE.BoxGeometry();
-  return <mesh {...props} geometry={geom}></mesh>;
-};
-
 export default function MyElement3D() {
+  const refMesh = useRef();
+  const refWireMesh = useRef();
+
+  useEffect(() => {
+    refWireMesh.current.geometry = refMesh.current.geometry;
+  }, []);
+
   return (
     <>
       <OrbitControls />
@@ -14,18 +17,30 @@ export default function MyElement3D() {
       <ambientLight intensity={0.1} />
       <directionalLight position={[2, 1, 3]} intensity={0.5} />
 
-      <mesh>
+      {/* 
+        <mesh>
+          <boxGeometry />
+          <meshStandardMaterial color={"yellow"} />
+        </mesh>
+
+        <mesh>
+          <boxGeometry />
+          <meshStandardMaterial emissive={"red"} wireframe={true} />
+        </mesh>
+
+        위 코드는 하나의 boxGeometry에 작업을 함에도
+        <boxGeometry />를 두 번 호출하고 있다.
+        이를 useRef를 사용하여 아래와 같이 나타낼 수 있다.
+      */}
+
+      <mesh ref={refMesh}>
         <boxGeometry />
         <meshStandardMaterial color={"yellow"} />
       </mesh>
 
-      <Box position={[1.2, 0, 0]}>
-        <meshStandardMaterial color={"purple"} />
-      </Box>
-
-      <MyBox position={[-1.2, 0, 0]}>
-        <meshStandardMaterial color={"red"} />
-      </MyBox>
+      <mesh ref={refWireMesh}>
+        <meshStandardMaterial emissive={"red"} wireframe={true} />
+      </mesh>
     </>
   );
 }
