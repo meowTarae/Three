@@ -4,39 +4,49 @@ import { useEffect, useRef } from "react";
 import * as THREE from "three";
 
 export default function MyElement3D() {
-  const refMesh = useRef();
-  const refWireMesh = useRef();
-
-  const { xSize, ySize, zSize, xSegments, ySegments, zSegments } = useControls({
-    xSize: { value: 1, min: 0.1, max: 5, step: 0.01 },
-    ySize: { value: 1, min: 0.1, max: 5, step: 0.01 },
-    zSize: { value: 1, min: 0.1, max: 5, step: 0.01 },
-    xSegments: { value: 1, min: 0.1, max: 10, step: 1 },
-    ySegments: { value: 1, min: 0.1, max: 10, step: 1 },
-    zSegments: { value: 1, min: 0.1, max: 10, step: 1 },
-  });
+  const mesh1 = useRef();
+  const mesh2 = useRef();
 
   useEffect(() => {
-    refWireMesh.current.geometry = refMesh.current.geometry;
-  }, [xSize, ySize, zSize, xSegments, ySegments, zSegments]);
+    mesh2.current.material = mesh1.current.material;
+  }, []);
 
   return (
     <>
       <OrbitControls />
 
       <ambientLight intensity={0.1} />
-      <directionalLight position={[2, 1, 3]} intensity={0.5} />
+      <directionalLight position={[0, 1, 0]} />
+      <directionalLight position={[1, 2, 8]} intensity={0.7} />
 
-      <mesh ref={refMesh}>
-        <boxGeometry
-          args={[xSize, ySize, zSize, xSegments, ySegments, zSegments]}
-        />
-        <meshStandardMaterial color={"yellow"} />
+      <mesh ref={mesh1} position={[1, 0, 0]}>
+        <boxGeometry />
+        <meshLambertMaterial color="#d25383" wireframe={false} />
       </mesh>
 
-      <mesh ref={refWireMesh}>
-        <meshStandardMaterial emissive={"red"} wireframe={true} />
+      <mesh ref={mesh2} position={[-1, 0, 0]}>
+        <torusGeometry args={[0.5, 0.2]} />
       </mesh>
+
+      {/* <axesHelper scale={10} /> */}
     </>
   );
 }
+
+/**
+ * 0910 화 메모
+  Material
+  Mesh  Basic     Material
+  Mesh  Standard  Material
+  Mesh  Phong     Material
+  Mesh  Lambert   Material
+  Mesh  Physical  Material
+  Mesh  Depth     Material
+  Mesh  Normal    Material
+
+  Drei에서 또 다른 Mesh 클래스들이 있음
+
+  3차원 객체를 표현할 때 3가지로 나타낼 수 있음.
+  Points, Line, Mesh
+  각각 점, 선, 면
+ */
