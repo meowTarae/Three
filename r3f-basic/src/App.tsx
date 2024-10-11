@@ -6,7 +6,7 @@ import { useControls } from "leva";
 
 function App() {
   const color = useControls({
-    value: "green",
+    value: "black",
   });
 
   const grid = useControls({
@@ -15,7 +15,10 @@ function App() {
 
   return (
     <>
-      <Canvas>
+      <Canvas
+        camera={{ position: [5, 5, 5] }}
+        gl={{ pixelRatio: window.devicePixelRatio > 1 ? 2 : 1 }}
+      >
         <color attach={"background"} args={[color.value]} />
         <OrbitControls />
         <axesHelper scale={[5, 5, 5]} />
