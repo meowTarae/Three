@@ -2,21 +2,30 @@ import { useFrame } from "@react-three/fiber";
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
 
+/*
+  three의 Clock 클래스를 통해, 유저의 디바이스 성능에 관계없이 동일한 퍼포먼스를 보여지게끔
+    1. ElapsedTime (경과 시간)
+    2. delta (이전 프레임과의 간격)
+
+  이런 변하는 상수값들에 의해 컴포넌트가 리렌더링 되지 않게끔, useRef에 해당 값을 집어넣어주자.
+*/
 export default function ThreeElement() {
   const boxRef = useRef<THREE.Mesh>(null);
   const boxCopyRef = useRef<THREE.Mesh>(null);
+  const clock = useRef(new THREE.Clock());
 
   useFrame(() => {
-    if (boxRef.current && boxCopyRef.current) {
-      // 360도는 2파이
-      // 1파이는 3.141
-      // 대충 6.28이 360도
-      boxRef.current.rotation.x += THREE.MathUtils.degToRad(1);
-      boxCopyRef.current.rotation.x += THREE.MathUtils.degToRad(1);
+    // const elapsedTime = clock.current.getElapsedTime();
+    const delta = clock.current.getDelta();
 
-      // boxRef.current.rotation.y += 0.01;
-      // boxRef.current.rotation.z += 0.01;
+    if (boxRef.current && boxCopyRef.current) {
+      // boxRef.current.rotation.x = elapsedTime;
+      // boxCopyRef.current.rotation.x = elapsedTime;
+      boxRef.current.rotation.x += delta;
+      boxCopyRef.current.rotation.x += delta;
     }
+
+    console.log(delta);
   });
 
   useEffect(() => {
