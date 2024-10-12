@@ -17,7 +17,7 @@ function App() {
     <>
       <Canvas
         camera={{ position: [5, 5, 5] }}
-        gl={{ pixelRatio: window.devicePixelRatio > 1 ? 2 : 1 }}
+        gl={{ pixelRatio: window.devicePixelRatio > 1 ? 2 : 1, alpha: true }}
       >
         <color attach={"background"} args={[color.value]} />
         <OrbitControls />
